@@ -1,50 +1,66 @@
 # test-manager-library-3239188-app
 
-> **Prueba técnica · Ficha ADSO 3239188**
-> Horario: **jueves 5 de noviembre de 2026, de 7:00 p. m. a 11:00 p. m.** (hora Colombia). Entrega a las **11:00 p. m.**
+> **Prueba técnica SDD · Ficha ADSO 3239188**  
+> Frontend SPA oficial en **React (Vite)** para *Manager Library*.
 
-Este repositorio es el **frontend** de *Manager Library*, en **React**. **Empieza vacío a propósito**: se construye en el fork de cada aprendiz.
+Este repositorio contiene la aplicación web de gestión para operadores (Administradores y Bibliotecarios) de la biblioteca, cumpliendo con la tarea **T-22** de la especificación SDD.
 
-## Instrucciones
+---
 
-Cada aprendiz debe **crear el fork** de los seis repositorios del proyecto y **resolver el proyecto
-con el spec planteado**.
+## 1. Características Implementadas (Tarea T-22)
 
-1. Hacer fork, a su cuenta de GitHub, de cada repositorio de la tabla del final.
-2. Leer el spec en [`test-manager-library-3239188-docs`](https://github.com/code-sena/test-manager-library-3239188-docs).
-   Se entrega en dos versiones: `spec-python/` y `spec-.net/`.
-3. Desarrollar en los forks.
+* **Autenticación (HU-01):**
+  * Pantalla de login para administradores y bibliotecarios.
+  * Almacenamiento seguro del token JWT (8 horas de vigencia) y control de sesiones.
+* **Catálogo de Libros (HU-03 y HU-04):**
+  * Buscador en tiempo real por título y autor.
+  * Filtro desplegable por las 5 categorías oficiales.
+  * Contador visual de ejemplares disponibles / totales.
+  * Modal de registro de nuevos libros con validación de ISBN de 13 dígitos (solo admin).
+  * Opción de baja lógica con validación de préstamos abiertos.
+* **Gestión de Socios (HU-05):**
+  * Directorio y búsqueda de socios por nombre o documento.
+  * Conteo en vivo de libros prestados activos sin devolver (máximo 3).
+  * Modal de afiliación de nuevos socios con documento único.
+* **Módulo de Préstamos (HU-06):**
+  * Formulario interactivo que valida:
+    * Límite de hasta 3 libros prestados simultáneos por socio.
+    * Bloqueo si el socio tiene algún libro vencido.
+    * Prohibición de repetir el mismo libro en el mismo préstamo.
+    * Descuento automático de ejemplares y cálculo de fecha de vencimiento a 14 días.
+* **Control de Vencidos y Devoluciones (HU-07 y HU-09):**
+  * Bandeja de préstamos vencidos con cálculo de días de retraso (`days_late`).
+  * Botón de devolución por línea que repone el ejemplar disponible en el catálogo e impide dobles devoluciones.
+* **Reporte de Libros Más Prestados (HU-10 & ADR-004):**
+  * Selector de rango de fechas (`from` y `to`).
+  * Visualización del ranking analítico agrupado por los valores congelados.
+* **Alta de Bibliotecarios (HU-02):**
+  * Formulario para crear nuevos usuarios con rol `librarian` (solo admin).
 
-## El reto se desarrolla con React y PHP (Laravel)
+---
 
-El spec está escrito para Python y para .NET, pero el reto **no** se hace en esos lenguajes:
+## 2. Puesta en Marcha Local
 
-| Capa | Tecnología del reto |
-|---|---|
-| Frontend | React |
-| Backend | PHP con Laravel |
+### Requisitos
+* [Node.js](https://nodejs.org/) v18+ instalado.
 
-Lo que el spec define sobre el negocio —historias, criterios de aceptación, reglas, contrato de la
-API, modelo de datos— se respeta. Lo que define sobre la tecnología se traduce a React y Laravel.
+### Instalación y Ejecución
+1. Instalar dependencias:
+   ```bash
+   npm install
+   ```
 
-## La prueba no consiste en escribir el código
+2. Iniciar el servidor de desarrollo en Vite:
+   ```bash
+   npm run dev
+   ```
 
-El propósito principal es ver la **capacidad de desempeño con SDD** (*Spec-Driven Development*,
-desarrollo guiado por especificación): cómo se lee, se interpreta y se aplica una especificación
-para llevarla a un stack distinto. El código es el medio, no el fin.
+3. Abrir en el navegador:
+   ```
+   http://localhost:5173
+   ```
 
-## Entrega
-
-Cuenta lo que quede **subido a los forks antes de las 11:00 p. m.** Lo que llegue después no se revisa.
-No hay prórroga: suban avances parciales con commits pequeños durante la prueba.
-
-## Los seis repositorios
-
-| Repositorio | Qué va ahí |
-|---|---|
-| [`test-manager-library-3239188-docs`](https://github.com/code-sena/test-manager-library-3239188-docs) | El spec: `spec-python/` y `spec-.net/` |
-| [`test-manager-library-3239188-api`](https://github.com/code-sena/test-manager-library-3239188-api) | Backend en PHP (Laravel) |
-| [`test-manager-library-3239188-app`](https://github.com/code-sena/test-manager-library-3239188-app) | Frontend en React |
-| [`test-manager-library-3239188-page`](https://github.com/code-sena/test-manager-library-3239188-page) | Sitio público estático de presentación |
-| [`test-manager-library-3239188-infra`](https://github.com/code-sena/test-manager-library-3239188-infra) | Contenedores, red, volúmenes y motor de base de datos vacío |
-| [`test-manager-library-3239188-tool`](https://github.com/code-sena/test-manager-library-3239188-tool) | Utilidades: sembrador de datos de demostración |
+### Credenciales de Acceso Iniciales
+* **Usuario:** `admin`
+* **Contraseña:** `admin_secret_pass`
+*(Provistas por el entorno del backend `api`)*
